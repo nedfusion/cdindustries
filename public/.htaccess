@@ -1,11 +1,14 @@
-# Handle React Router (remove MultiViews to prevent conflicts)
-Options -MultiViews
+# Handle React Router and prioritize index.php
+DirectoryIndex index.php index.html
+
+# Enable rewrite engine
 RewriteEngine On
 
-# Handle client-side routing
+# Handle client-side routing - redirect all requests to index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.html [L]
+RewriteCond %{REQUEST_URI} !^/index\.php$
+RewriteRule . /index.php [L]
 
 # Enable compression
 <IfModule mod_deflate.c>
