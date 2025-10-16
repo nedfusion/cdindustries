@@ -33,11 +33,22 @@ import {
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Simulate app loading and remove loading spinner
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      document.body.classList.add('app-loaded');
+    }, 1000);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
@@ -49,7 +60,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen bg-white ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         scrollY > 50 ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white/90'

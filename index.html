@@ -2,16 +2,64 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" sizes="100x100" href="/cd industry ICON O.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/cd industry ICON O.png" />
-    <link rel="apple-touch-icon" href="/cd industry ICON O.png" />
-    <link rel="shortcut icon" href="/cd industry ICON O.png" />
+    <link rel="icon" type="image/png" sizes="100x100" href="./cd industry ICON O.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./cd industry ICON O.png" />
+    <link rel="apple-touch-icon" href="./cd industry ICON O.png" />
+    <link rel="shortcut icon" href="./cd industry ICON O.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CD Industries - Innovating Sustainable Solutions</title>
     <meta name="description" content="Leading manufacturing powerhouse with 5M+ annual production capacity, specializing in jute goods, packaging solutions, plastic fabrication, and FMCG products for global markets." />
+    <style>
+      /* Critical CSS to prevent flash of unstyled content */
+      #root {
+        min-height: 100vh;
+        background: white;
+      }
+      
+      /* Loading spinner */
+      .loading-spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #f97316;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        z-index: 9999;
+      }
+      
+      @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+      
+      /* Hide spinner when app loads */
+      .app-loaded .loading-spinner {
+        display: none;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root">
+      <div class="loading-spinner"></div>
+    </div>
+    <script>
+      // Add loading detection
+      window.addEventListener('load', function() {
+        document.body.classList.add('app-loaded');
+      });
+      
+      // Error handling for missing assets
+      window.addEventListener('error', function(e) {
+        console.error('Asset loading error:', e);
+        if (e.target && e.target.tagName) {
+          console.error('Failed to load:', e.target.src || e.target.href);
+        }
+      });
+    </script>
+    <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>

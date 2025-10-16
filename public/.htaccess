@@ -1,17 +1,36 @@
 # Apache configuration for React SPA on shared hosting
+Options -MultiViews
 RewriteEngine On
+
+# Handle CORS for assets
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+</IfModule>
+
+# Force HTTPS (uncomment if you have SSL)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Handle React Router - redirect all requests to index.html
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
 RewriteRule . /index.html [L]
 
-# MIME Types
+# MIME Types for proper asset serving
 AddType text/css .css
 AddType application/javascript .js
+AddType application/json .json
 AddType image/svg+xml .svg
+AddType image/png .png
+AddType image/jpeg .jpg
+AddType image/jpeg .jpeg
+AddType image/gif .gif
+AddType image/webp .webp
 
-# Compression
+# Compression for faster loading
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/plain
     AddOutputFilterByType DEFLATE text/html
@@ -35,6 +54,7 @@ AddType image/svg+xml .svg
     ExpiresByType image/jpeg "access plus 1 month"
     ExpiresByType image/gif "access plus 1 month"
     ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType application/json "access plus 1 week"
 </IfModule>
 
 # Security Headers
@@ -42,4 +62,14 @@ AddType image/svg+xml .svg
     Header always set X-Content-Type-Options nosniff
     Header always set X-Frame-Options SAMEORIGIN
     Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
+
+# Prevent access to sensitive files
+<Files ~ "^\.">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Error pages
+ErrorDocument 404 /index.html
