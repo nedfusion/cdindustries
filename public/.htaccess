@@ -1,15 +1,8 @@
-# Apache configuration for React SPA on shared hosting
+# Apache configuration for React SPA on cPanel
 Options -MultiViews
 RewriteEngine On
 
-# Handle CORS for assets
-<IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
-    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
-    Header set Access-Control-Allow-Headers "Content-Type"
-</IfModule>
-
-# Force HTTPS (uncomment if you have SSL)
+# Force HTTPS (uncomment if you have SSL certificate)
 # RewriteCond %{HTTPS} off
 # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
